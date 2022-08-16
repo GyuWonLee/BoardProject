@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.article">
+	<resultMap id="articleResult" type="articleVO">
+		<result property="articleNo" column="ArticleNO" />
+		<result property="title" column="Title" />
+		<result property="contents" column="Contents" />
+		<result property="writeDate" column="WriteDate" />
+		<result property="writeId" column="WriteID" />
+	</resultMap>
+	<select id="selectAllArticles" resultMap="articleResult">
+		<![CDATA[
+			select * from noticeboard order by WriteDate desc
+		]]>
+	</select>
+	<select id="selectArticle" resultType="articleVO"
+		parameterType="int">
+		<![CDATA[
+			select * from noticeboard where ArticleNo = #{articleNo}
+		]]>
+	</select>
+	<insert id="insertArticle" parameterType="articleVO">
+		<![CDATA[
+			insert into noticeboard (Title, Contents, writeDate, WriteID)
+			values (#{title}, #{contents}, default, #{writeId})
+		]]>
+	</insert>
+	<update id="updateArticle" parameterType="articleVO">
+		<![CDATA[	
+			update noticeboard set Title= #{title}, Contents=#{contents}
+			where ArticleNo=#{articleNo}
+		]]>
+	</update>
+	<delete id="deleteArticle" parameterType="articleVO">
+		<![CDATA[	
+			delete from noticeboard where ArticleNo=#{articleNo}
+		]]>
+	</delete>
+</mapper>
